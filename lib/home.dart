@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 
@@ -117,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({Key? key}) : super(key: key);
+  const PasswordScreen({super.key});
 
   @override
   _PasswordScreen createState() => _PasswordScreen();
@@ -279,7 +280,7 @@ class _PasswordScreen extends State<PasswordScreen> {
 }
 
 class PictureScreen extends StatefulWidget {
-  const PictureScreen({Key? key}) : super(key: key);
+  const PictureScreen({super.key});
 
   @override
   _PictureScreen createState() => _PictureScreen();
@@ -304,7 +305,7 @@ class _PictureScreen extends State<PictureScreen> {
 }
 
 class HistoryScreen extends StatefulWidget {
-  const HistoryScreen({Key? key}) : super(key: key);
+  const HistoryScreen({super.key});
 
   @override
   _HistoryScreen createState() => _HistoryScreen();
@@ -325,5 +326,14 @@ class _HistoryScreen extends State<HistoryScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _taskUpdate(String uid, String id, bool state) async {
+
+    if (state == true) {
+      FirebaseFirestore.instance
+          .collection("History").get();
+          
+    } 
   }
 }
