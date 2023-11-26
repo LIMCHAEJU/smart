@@ -170,7 +170,7 @@ class _PasswordScreen extends State<PasswordScreen> {
                     });
                   }
                 },
-                child: const Text("번경"),
+                child: const Text("변경"),
               )
             ],
           ),
@@ -210,7 +210,7 @@ class _PasswordScreen extends State<PasswordScreen> {
         ),
       );
     } else {
-      if (password.length == 4) {
+      if (text.length == 4) {
         //데이터 베이스에서 비밀번호 불러오기
         //password=
         if (password == null) {
