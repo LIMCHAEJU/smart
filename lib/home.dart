@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_database/firebase_database.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
@@ -329,11 +332,8 @@ class _HistoryScreen extends State<HistoryScreen> {
   }
 
   Future<void> _taskUpdate(String uid, String id, bool state) async {
-
     if (state == true) {
-      FirebaseFirestore.instance
-          .collection("History").get();
-          
-    } 
+      FirebaseFirestore.instance.collection("History").get();
+    }
   }
 }
