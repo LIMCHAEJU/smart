@@ -53,21 +53,18 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             ElevatedButton(
-              onPressed: () async {
-                // 파이어베이스의 사진 가져오기
-                await _pictureRef.set('1');
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const PictureScreen(),
-                  ),
-                );
-              },
-              child: const Text(
-                '금고 내부 확인하기',
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
+                onPressed: () async {
+                  //파이어베이스의 사진 가져오기
+                  await _pictureRef.set('1');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PictureScreen()));
+                },
+                child: const Text(
+                  '금고 내부 확인하기',
+                  style: TextStyle(fontSize: 30),
+                )),
             ElevatedButton(
               onPressed: () async {
                 //파이어베이스의 비번 설정 & 있는 경우 변경하는 함수
@@ -110,47 +107,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Future<void> explanation() async {
     return showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (BuildContext context) {
-        return const AlertDialog(
-          title: Text(
-            '설명',
-            style: TextStyle(fontSize: 25),
-          ),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(
-                  '1.금고 내부 확인하기',
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  '  앱에서 버튼을 누르면 금고 내부에서 사진을 찍어 앱을 통해 확인할 수 있다.',
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  '2.비밀번호 설정& 변경',
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  '  초기 금고의 비밀번호를 설정 가능하고, 이미 비밀번호가 있는 경우는 변경 가능하다.',
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  '3.금고 기록 열람',
-                  style: TextStyle(fontSize: 15),
-                ),
-                Text(
-                  '  금고가 열렸을때의 시간을 볼 수 있다.',
-                  style: TextStyle(fontSize: 15),
-                ),
-              ],
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            title: Text(
+              '설명',
+              style: TextStyle(fontSize: 25),
             ),
-          ),
-        );
-      },
-    );
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text(
+                    '1.금고 내부 확인하기',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '  앱에서 버튼을 누르면 금고 내부에서 사진을 찍어 앱을 통해 확인할 수 있다.',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '2.비밀번호 설정& 변경',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '  초기 금고의 비밀번호를 설정 가능하고, 이미 비밀번호가 있는 경우는 변경 가능하다.',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '3.금고 기록 열람',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '  금고가 열렸을때의 시간을 볼 수 있다.',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
 
