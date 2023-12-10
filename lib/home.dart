@@ -81,7 +81,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
               child: const Text(
-                '비밀번호 설정& 변경',
+                '비밀번호 설정 & 변경',
                 style: TextStyle(fontSize: 30),
               ),
             ),
