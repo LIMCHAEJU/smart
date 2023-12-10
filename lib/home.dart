@@ -119,7 +119,15 @@ class _MyHomePageState extends State<MyHomePage> {
               child: ListBody(
                 children: <Widget>[
                   Text(
-                    '1.금고 내부 확인하기',
+                    '1.금고 열기',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '  앱에서 버튼을 누르면 비밀번호를 입력하고 금고 문을 열 수 있다.',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '2.금고 내부 확인하기',
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
@@ -127,7 +135,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '2.비밀번호 설정& 변경',
+                    '3.비밀번호 설정 & 변경',
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
@@ -135,7 +143,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '3.금고 기록 열람',
+                    '4.금고 기록 열람',
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
@@ -185,7 +193,7 @@ void _showPasswordInputDialog(
               if (_passwordController.text == correctPassword) {
                 await openRef.set('1');
 
-                // Password is correct, save the opening time to Firebase
+                // 입력한 비밀번호가 맞으면 금고 기록에 현재 시간 기입
                 final DateTime now = DateTime.now();
                 final String formattedTime =
                     DateFormat('yyyy-MM-dd HH:mm:ss', 'en_US')
@@ -193,14 +201,14 @@ void _showPasswordInputDialog(
                         .toString();
                 await historyRef.push().set(formattedTime);
 
-                Navigator.of(context).pop(); // Close the dialog
+                Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('금고가 열렸습니다.'),
                   ),
                 );
               } else {
-                // Incorrect password
+                // 입력한 비밀번호가 틀리면
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('비밀번호가 일치하지 않습니다.'),
@@ -318,8 +326,7 @@ class _PasswordScreen extends State<PasswordScreen> {
     } else {
       if (newPassword.length == 4) {
         //데이터 베이스에서 비밀번호 불러오기
-        //password=
-        if (oldPassword == null || oldPassword.isEmpty) {
+        if (oldPassword.isEmpty) {
           // newPassword를 비밀번호로 DB에 저장
           _passwordRef.set(newPassword);
         } else {
@@ -399,9 +406,6 @@ class PictureScreen extends StatefulWidget {
 }
 
 class _PictureScreen extends State<PictureScreen> {
-  final DatabaseReference _pictureRef =
-      FirebaseDatabase.instance.reference().child('picture');
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -452,7 +456,6 @@ class _HistoryScreen extends State<HistoryScreen> {
       }
     } catch (error) {
       print("Error loading opening times: $error");
-      // Handle the error, you can show a message or take appropriate action
     }
   }
 
@@ -464,20 +467,17 @@ class _HistoryScreen extends State<HistoryScreen> {
         title: const Text('금고 기록'),
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            for (String time in openingTimes) Text(time),
-          ],
+        child: ListView.builder(
+          itemCount: openingTimes.length,
+          itemBuilder: (context, index) {
+            // 가장 최신 기록이 맨 위에 오도록 함
+            final reversedIndex = openingTimes.length - 1 - index;
+            final time = openingTimes[reversedIndex];
+
+            return Text(time);
+          },
         ),
       ),
     );
-  }
-
-  Future<void> _taskUpdate(String uid, String id, bool state) async {
-    if (state == true) {
-      // Assuming you will perform some action when state is true
-      // Add your Firestore or Realtime Database logic here
-    }
   }
 }
