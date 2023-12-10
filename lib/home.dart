@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key, required this.title});
@@ -399,13 +400,42 @@ class _PasswordScreen extends State<PasswordScreen> {
 }
 
 class PictureScreen extends StatefulWidget {
-  const PictureScreen({Key? key});
+  const PictureScreen({Key? key}) : super(key: key);
 
   @override
-  _PictureScreen createState() => _PictureScreen();
+  _PictureScreenState createState() => _PictureScreenState();
 }
 
-class _PictureScreen extends State<PictureScreen> {
+class _PictureScreenState extends State<PictureScreen> {
+  final firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instance;
+
+  List<String> imageUrls = [];
+
+  @override
+  void initState() {
+    super.initState();
+    loadImages();
+  }
+
+  Future<void> loadImages() async {
+    try {
+      // Firebase Storage에서 이미지 목록 가져오기
+      firebase_storage.ListResult result =
+          await storage.ref().child('images/').listAll();
+
+      // 이미지 URL을 리스트에 추가
+      for (final firebase_storage.Reference ref in result.items) {
+        String url = await ref.getDownloadURL();
+        setState(() {
+          imageUrls.add(url);
+        });
+      }
+    } catch (error) {
+      print("Error loading images: $error");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -413,11 +443,19 @@ class _PictureScreen extends State<PictureScreen> {
         backgroundColor: Theme.of(context).colorScheme.onPrimary,
         title: const Text('현재 금고 내부 사진'),
       ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[Text('사진')],
+      body: GridView.builder(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 4.0,
+          mainAxisSpacing: 4.0,
         ),
+        itemCount: imageUrls.length,
+        itemBuilder: (context, index) {
+          return Image.network(
+            imageUrls[index],
+            fit: BoxFit.cover,
+          );
+        },
       ),
     );
   }
