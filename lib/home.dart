@@ -513,7 +513,13 @@ class _HistoryScreen extends State<HistoryScreen> {
             final reversedIndex = openingTimes.length - 1 - index;
             final time = openingTimes[reversedIndex];
 
-            return Text(time);
+            return Text(
+              time,
+              style: TextStyle(
+                fontSize: 30,
+              ),
+              textAlign: TextAlign.center,
+            );
           },
         ),
       ),
