@@ -428,7 +428,8 @@ class _PictureScreenState extends State<PictureScreen> {
       for (final firebase_storage.Reference ref in result.items) {
         String url = await ref.getDownloadURL();
         setState(() {
-          imageUrls.add(url);
+          // 이미지를 리스트의 처음에 추가하면 역순으로 정렬됨
+          imageUrls.insert(0, url);
         });
       }
     } catch (error) {
