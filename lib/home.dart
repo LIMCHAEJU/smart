@@ -56,7 +56,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
                 onPressed: () async {
                   //파이어베이스의 사진 가져오기
-                  await _pictureRef.set('1');
+                  // await _pictureRef.set('1');
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -64,6 +64,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: const Text(
                   '금고 내부 확인하기',
+                  style: TextStyle(fontSize: 30),
+                )),
+            ElevatedButton(
+                onPressed: () async {
+                  //파이어베이스의 사진 가져오기
+                  await _pictureRef.set('1');
+
+                  Future.delayed(Duration(seconds: 25), () async {
+                    await _pictureRef.set('0');
+                  });
+                },
+                child: const Text(
+                  '조명 켜기',
                   style: TextStyle(fontSize: 30),
                 )),
             ElevatedButton(
@@ -132,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
-                    '  앱에서 버튼을 누르면 금고 내부에서 사진을 찍어 앱을 통해 확인할 수 있다.',
+                    '  앱에서 버튼을 누르면 개발 도중 찍은 사진을 볼 수 있다. 사진 찍기는 구현에 실패했다.',
                     style: TextStyle(fontSize: 15),
                   ),
                   Text(
@@ -149,6 +162,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   Text(
                     '  금고가 열렸을때의 시간을 볼 수 있다.',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '5.조명 켜기',
+                    style: TextStyle(fontSize: 15),
+                  ),
+                  Text(
+                    '  금고 내부의 네오픽셀을 일정 시간동안 작동시킨다.',
                     style: TextStyle(fontSize: 15),
                   ),
                 ],
@@ -201,6 +222,10 @@ void _showPasswordInputDialog(
                         .format(now.toUtc().add(Duration(hours: 9)))
                         .toString();
                 await historyRef.push().set(formattedTime);
+
+                Future.delayed(Duration(seconds: 10), () async {
+                  await openRef.set('0');
+                });
 
                 Navigator.of(context).pop();
                 ScaffoldMessenger.of(context).showSnackBar(
